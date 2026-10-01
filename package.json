@@ -33,6 +33,12 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "source-map": "0.7.3",
+    "source-map-support": "^0.5.21",
+    "uuid": "^10.0.0",
+    "tar": "^7.4.0",
+    "rimraf": "^5.0.1",
+    "glob": "^11.0.0"
   }
 }
