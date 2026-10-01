@@ -1,0 +1,13 @@
+<div class="massa-molar_compostos-grid" aria-live="polite">
+  @for (composto of compostos; track composto.formula) {
+    <button
+      type="button"
+      class="massa-molar_composto"
+      [attr.aria-label]="'Usar ' + composto.formula"
+      (click)="onSelect(composto)"
+    >
+      <span class="massa-molar_composto-formula" [innerHTML]="formatarFormula(composto.formula)"></span>
+      <span class="massa-molar_composto-nome">{{ composto.nome }}</span>
+    </button>
+  }
+</div>

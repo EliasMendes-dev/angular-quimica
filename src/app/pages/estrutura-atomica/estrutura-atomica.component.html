@@ -1,0 +1,240 @@
+<!-- Seção Cabeçalho -->
+<header class="cabecalho" aria-labelledby="tituloopcao1">
+  <i class="fa-solid fa-microscope"></i>
+  <h1>Estrutura <span class="cabecalho_titulo_span">Atômica</span></h1>
+  <p class="cabecalho_descricao">
+    Entenda a estrutura dos átomos e como os elétrons estão distribuídos em níveis e subníveis de energia.
+  </p>
+</header>
+
+<section class="organizacao_primaria" data-tooltip-source="estruturaatomica">
+  <!-- Seção Seleção do Elemento -->
+  <section class="card" aria-labelledby="estruturaatomicaTitulo">
+    <div class="estruturaatomica_form">
+      <label class="conversor_label" for="estruturaAtomicaInput">Selecione um Elemento</label>
+      <div class="busca estruturaatomica_campo" [class.busca--aberta]="isSearchOpen()">
+        <div class="campo-busca">
+          <i class="fa-solid fa-search campo-busca_icone" aria-hidden="true"></i>
+          <input
+            id="estruturaAtomicaInput"
+            class="campo-busca_input"
+            type="text"
+            inputmode="text"
+            pattern="[A-Za-z0-9()\[\]{}·]*"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Buscar por símbolo, nome ou número atômico..."
+            [ngModel]="searchTerm()"
+            (ngModelChange)="onSearchInput($event)"
+            (focus)="onSearchFocus()"
+          >
+        </div>
+
+        @if (isSearchOpen()) {
+          <div class="busca_resultados">
+            @if (searchResults().length === 0) {
+              <div class="busca_vazio">Nenhum elemento encontrado</div>
+            } @else {
+              @for (item of searchResults(); track item.numero) {
+                <button type="button" class="busca_item" role="option" (click)="selecionarElemento(item)">
+                  <span class="busca_simbolo">{{ item.simbolo }}</span>
+                  <span class="busca_info">
+                    <span class="busca_nome">{{ item.nome }}</span>
+                    <span class="busca_meta">{{ item.nome }} - Nº {{ item.numero }}</span>
+                  </span>
+                </button>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Elementos Comuns -->
+    <div class="estruturaatomica_secao">
+      <div class="estruturaatomica_secao-header">
+        <h4>Elementos Comuns</h4>
+        <span>Toque para inserir</span>
+      </div>
+      <app-common-elements (elementoSelecionado)="selecionarPorSimbolo($event)"></app-common-elements>
+    </div>
+  </section>
+
+  <!-- Detalhes do Elemento -->
+  <section class="estruturaatomica_resultados" aria-label="Detalhes do elemento">
+    <!-- Card Resumo -->
+    <section class="card estruturaatomica_card estruturaatomica_card--resumo" aria-label="Resumo do elemento">
+      <div class="estruturaatomica_resumo-topo">
+        <div class="estruturaatomica_resumo-simbolo" id="estruturaAtomicaResumoSimbolo">
+          {{ elementoSelecionado()?.simbolo || '--' }}
+        </div>
+        <div class="estruturaatomica_resumo-info">
+          <h3 id="estruturaAtomicaResumoNome">{{ elementoSelecionado()?.nome || 'Selecione um elemento' }}</h3>
+          <p class="estruturaatomica_resumo-meta" id="estruturaAtomicaResumoCategoria">Categoria: {{ categoriaTexto() }}</p>
+          <p class="estruturaatomica_resumo-meta" id="estruturaAtomicaResumoMassa">Massa: {{ massaFormatada() }}</p>
+        </div>
+      </div>
+      <div class="estruturaatomica_resumo-dados">
+        <div class="estruturaatomica_resumo-item">
+          <span class="estruturaatomica_resumo-numero" id="estruturaAtomicaResumoProtons">{{ protons() }}</span>
+          <span class="estruturaatomica_resumo-label">Prótons</span>
+        </div>
+        <div class="estruturaatomica_resumo-item">
+          <span class="estruturaatomica_resumo-numero" id="estruturaAtomicaResumoNeutrons">{{ neutrons() }}</span>
+          <span class="estruturaatomica_resumo-label">Nêutrons</span>
+        </div>
+        <div class="estruturaatomica_resumo-item">
+          <span class="estruturaatomica_resumo-numero" id="estruturaAtomicaResumoEletrons">{{ eletrons() }}</span>
+          <span class="estruturaatomica_resumo-label">Elétrons</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Card Configuração Eletrônica -->
+    <section class="card estruturaatomica_card estruturaatomica_card--config" aria-label="Configuração eletrônica">
+      <div class="estruturaatomica_card-header">
+        <i class="fa-solid fa-bolt"></i>
+        <h3>Configuração Eletrônica</h3>
+      </div>
+      <div class="estruturaatomica_config-bloco">
+        <span class="estruturaatomica_config-label">Notação Abreviada</span>
+        <span class="estruturaatomica_config-valor" id="estruturaAtomicaConfigAbreviada" [innerHTML]="configAbreviadaHTML()"></span>
+      </div>
+      <div class="estruturaatomica_config-bloco">
+        <span class="estruturaatomica_config-label">Notação Expandida</span>
+        <span class="estruturaatomica_config-valor" id="estruturaAtomicaConfigExpandida" [innerHTML]="configExpandidaHTML()"></span>
+      </div>
+    </section>
+
+    <!-- Card Modelo Atômico -->
+    <section class="card estruturaatomica_card estruturaatomica_card--modelo" aria-label="Modelo atômico">
+      <div class="estruturaatomica_card-header">
+        <i class="fa-solid fa-atom"></i>
+        <h3>Modelo Atômico</h3>
+      </div>
+      <div class="estruturaatomica_modelo-visual" id="estruturaAtomicaModeloVisual">
+        <div class="estruturaatomica_orbitas" id="estruturaAtomicaOrbitas">
+          @for (orbita of orbitas(); track orbita.tamanho) {
+            <div
+              class="estruturaatomica_orbita"
+              [style.width.px]="orbita.tamanho"
+              [style.height.px]="orbita.tamanho"
+              [style.zIndex]="orbita.zIndex"
+            >
+              @for (eletron of orbita.eletrons; track $index) {
+                <span
+                  class="estruturaatomica_eletron"
+                  [style.transform]="'translate(-50%, -50%) rotate(' + eletron.angulo + 'deg) translate(' + eletron.raio + 'px)'"
+                  [style.background]="eletron.cor"
+                ></span>
+              }
+            </div>
+          }
+        </div>
+        <div class="estruturaatomica_nucleo">
+          <span id="estruturaAtomicaNucleoSimbolo">{{ elementoSelecionado()?.simbolo || '--' }}</span>
+        </div>
+      </div>
+      <div class="estruturaatomica_camadas-lista" id="estruturaAtomicaCamadasLista">
+        @if (camadasArray().length === 0) {
+          <span>Camadas: --</span>
+        } @else {
+          @for (camada of camadasArray(); track $index) {
+            <span class="estruturaatomica_camada-tag">
+              Camada {{ quimicaService.letrasCamadas[$index] || 'N' + ($index + 1) }}: <strong>{{ camada }}e-</strong>
+            </span>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- Card Diagrama de Linus Pauling -->
+    <section class="card estruturaatomica_card estruturaatomica_card--pauling" aria-label="Diagrama de Linus Pauling">
+      <div class="estruturaatomica_card-header">
+        <i class="fa-solid fa-layer-group"></i>
+        <h3>Diagrama de Linus Pauling</h3>
+      </div>
+      <div class="estruturaatomica_pauling-lista" id="estruturaAtomicaPaulingLista">
+        @if (paulingLinhas().length === 0) {
+          <div class="estruturaatomica_pauling-linha">--</div>
+        } @else {
+          @for (linha of paulingLinhas(); track linha.nivelSubnivel) {
+            <div class="estruturaatomica_pauling-linha">
+              <span class="estruturaatomica_pauling-nivel">{{ linha.nivelSubnivel }}</span>
+              <div class="estruturaatomica_pauling-orbitais">
+                @for (orb of linha.orbitais; track $index) {
+                  <span class="estruturaatomica_pauling-orbital">
+                    @if (orb.up) { <span>↑</span> }
+                    @if (orb.down) { <span>↓</span> }
+                  </span>
+                }
+              </div>
+              <span class="estruturaatomica_pauling-contagem">({{ linha.eletronsNumero }}e-)</span>
+            </div>
+          }
+        }
+      </div>
+      <p class="estruturaatomica_pauling-nota">
+        Os elétrons preenchem os orbitais seguindo a regra de Hund: primeiro, um elétron em cada orbital do
+        mesmo subnível, depois o segundo elétron é adicionado com spin oposto.
+      </p>
+    </section>
+
+    <!-- Card Elétrons de Valência -->
+    <section class="card estruturaatomica_card estruturaatomica_card--valencia" aria-label="Elétrons de valência">
+      <div class="estruturaatomica_card-header">
+        <i class="fa-solid fa-circle-nodes"></i>
+        <h3>Elétrons de Valência</h3>
+      </div>
+      <div class="estruturaatomica_valencia-topo">
+        <div>
+          <span class="estruturaatomica_valencia-label" id="estruturaAtomicaValenciaLabel">
+            Última camada ({{ letraValencia() || '--' }})
+          </span>
+          <div class="estruturaatomica_valencia-valor" id="estruturaAtomicaValenciaValor">
+            {{ valencia() !== null ? valencia() : '-' }}
+          </div>
+        </div>
+        <div class="estruturaatomica_valencia-dots" id="estruturaAtomicaValenciaDots">
+          @for (dot of valenciaDots(); track $index) {
+            <span class="estruturaatomica_valencia-dot" [class.is-ativo]="dot.ativo"></span>
+          }
+        </div>
+      </div>
+      <p class="estruturaatomica_valencia-texto" id="estruturaAtomicaValenciaTexto">
+        {{ valenciaTexto() }}
+      </p>
+    </section>
+  </section>
+
+  <!-- Seção Conceitos Importantes -->
+  <section class="card info-estrutura" aria-label="Informações sobre Estrutura Atômica">
+    <h3>Conceitos Importantes</h3>
+    <section class="info-estrutura_conteudo" aria-label="Conceitos relacionados à estrutura atômica">
+      <section class="card_info_organizacao_estrutura">
+        <h4>Número Atômico (Z)</h4>
+        <p>Quantidade de prótons no núcleo. Define o elemento químico e sua posição na tabela periódica.</p>
+      </section>
+      <section class="card_info_organizacao_estrutura">
+        <h4>Número de Massa (A)</h4>
+        <p>Soma de prótons e nêutrons no núcleo. A = Z + N. Diferentes valores de N criam isótopos.</p>
+      </section>
+      <section class="card_info_organizacao_estrutura">
+        <h4>Camadas Eletrônicas</h4>
+        <p>Níveis de energia (K, L, M, N...) onde os elétrons orbitam. Cada camada comporta até 2n² elétrons.</p>
+      </section>
+      <section class="card_info_organizacao_estrutura">
+        <h4>Subníveis</h4>
+        <p>Divisões das camadas: s (2e⁻), p (6e⁻), d (10e⁻), f (14e⁻). Cada subnível tem orbitais específicos.</p>
+      </section>
+      <section class="card_info_organizacao_estrutura">
+        <h4>Regra de Hund</h4>
+        <p>Elétrons ocupam orbitais vazios antes de emparelhar. Isso minimiza a repulsão eletrônica.</p>
+      </section>
+      <section class="card_info_organizacao_estrutura">
+        <h4>Princípio de Aufbau</h4>
+        <p>Elétrons preenchem subníveis em ordem crescente de energia, seguindo o diagrama de Pauling.</p>
+      </section>
+    </section>
+  </section>
+</section>

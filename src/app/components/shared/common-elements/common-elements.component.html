@@ -1,0 +1,14 @@
+<div class="massa-molar_elementos" aria-live="polite">
+  @for (simbolo of elementos; track simbolo) {
+    <button
+      type="button"
+      class="massa-molar_elemento"
+      [attr.aria-label]="'Inserir ' + simbolo"
+      [title]="getNome(simbolo) + ' (' + getMassaCurta(simbolo) + ')'"
+      (click)="onSelect(simbolo)"
+    >
+      <span class="massa-molar_elemento-simbolo">{{ simbolo }}</span>
+      <span class="massa-molar_elemento-massa">{{ getMassaCurta(simbolo) }}</span>
+    </button>
+  }
+</div>

@@ -1,0 +1,101 @@
+.info-tabela-periodica {
+  align-items: center;
+}
+
+.tabela-pauling {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.tabela-pauling figcaption {
+  margin-bottom: 0.5rem;
+  color: var(--texto-destaque);
+  font-size: var(--fonte-xs);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.lista-pauling {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lista-pauling li {
+  display: flex;
+  flex: 1 1 60px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 60px;
+  aspect-ratio: 1 / 1;
+  border: 5px solid var(--borda-elemento-desativado, color-mix(in srgb, var(--texto-principal) 18%, transparent));
+  cursor: default;
+  border-radius: var(--borda-raio-sm);
+  transition:
+    transform var(--transicao-curta),
+    filter var(--transicao-curta);
+}
+
+.lista-pauling li:hover {
+  filter: brightness(1.08);
+  transform: scale(1.1);
+}
+
+.lista-pauling li .simbolo {
+  color: var(--texto-principal);
+  font-size: var(--fonte-sm);
+  font-weight: 700;
+}
+
+.lista-pauling li .nome {
+  color: var(--texto-principal);
+  font-size: var(--fonte-2xs);
+}
+
+.lista-pauling li .valor {
+  color: var(--texto-principal);
+  font-size: var(--fonte-3xs);
+  font-weight: 600;
+}
+
+.fluor,
+.cloro,
+.bromo,
+.iodo {
+  background: var(--categoria-halogenio);
+}
+
+.oxigenio,
+.nitrogenio,
+.enxofre,
+.carbono,
+.fosforo {
+  background: var(--categoria-nao-metal);
+}
+
+.tendencia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tendencia h5 {
+  font-size: var(--fonte-sm);
+  margin-bottom: 0.2rem;
+  color: var(--texto-principal);
+}
+
+.tendencia p {
+  color: var(--texto-suave);
+  font-size: var(--fonte-xs);
+  line-height: 1.6;
+  text-align: center;
+}

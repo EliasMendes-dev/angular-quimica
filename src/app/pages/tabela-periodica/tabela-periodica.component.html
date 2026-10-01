@@ -1,0 +1,116 @@
+<!-- Seção Cabeçalho -->
+<header class="cabecalho" aria-labelledby="tituloopcao1">
+  <i class="fa-solid fa-table-cells"></i>
+  <h1>Tabela <span class="cabecalho_titulo_span">Periódica</span></h1>
+  <p class="cabecalho_descricao">
+    Aqui você pode encontrar informações sobre os elementos da tabela periódica.
+  </p>
+</header>
+
+<!-- Seção Tabela e Filtros -->
+<section class="organizacao_primaria" data-tooltip-source="tabela">
+  <!-- Busca com autocomplete -->
+  <div class="busca" [class.busca--aberta]="isSearchOpen()" [class.busca--com-valor]="searchTerm().length > 0">
+    <div class="campo-busca">
+      <i class="campo-busca_icone fa-solid fa-magnifying-glass"></i>
+
+      <input
+        class="campo-busca_input"
+        type="text"
+        placeholder="Pesquisar..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="onSearchInput($event)"
+        (focus)="onSearchFocus()"
+      >
+
+      <button class="campo-busca_limpar" type="button" (click)="clearSearch()" aria-label="Limpar pesquisa">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    @if (isSearchOpen()) {
+      <div class="busca_resultados">
+        @if (searchResults().length === 0) {
+          <div class="busca_vazio">Nenhum elemento encontrado</div>
+        } @else {
+          @for (item of searchResults(); track item.numero) {
+            <button type="button" class="busca_item" role="option" (click)="selectSearchResult(item)">
+              <span class="busca_simbolo">{{ item.simbolo }}</span>
+              <span class="busca_info">
+                <span class="busca_nome">{{ item.nome }}</span>
+                <span class="busca_meta">{{ item.nome }} - Nº {{ item.numero }}</span>
+              </span>
+            </button>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Cartão de detalhes do elemento -->
+  <app-element-card
+    [elemento]="currentElement()"
+    [elementoCor]="currentCor()"
+  ></app-element-card>
+
+  <!-- Filtros por categoria -->
+  <aside class="filtragem" aria-label="Filtrar categorias">
+    <div class="itens-filtro" role="list">
+      @for (cat of quimicaService.categoriasFiltro; track cat.id) {
+        <div
+          [id]="cat.id"
+          class="filtro-item"
+          [class.ativo]="activeFilter() === cat.id"
+          role="listitem"
+          (mouseenter)="onFilterEnter(cat.id)"
+          (mouseleave)="onFilterLeave()"
+          (click)="onFilterClick(cat.id)"
+        >
+          <p>{{ cat.nome }}</p>
+        </div>
+      }
+    </div>
+  </aside>
+
+  <!-- Grade da Tabela Periódica -->
+  <section class="card tabela-scroll" aria-label="Tabela periódica">
+    <div class="tabela-periodica">
+      <!-- Rótulos de períodos -->
+      <div class="periodos">
+        @for (p of quimicaService.periodos; track p.value) {
+          <span [class]="'row-' + p.row" [style.grid-row]="p.row">{{ p.value }}</span>
+        }
+      </div>
+
+      <!-- Rótulos de grupos -->
+      <div class="grupos">
+        <span class="placeholder"></span>
+        @for (g of quimicaService.grupos; track g.value) {
+          <span [style.grid-column]="g.col">{{ g.value }}</span>
+        }
+      </div>
+
+      <!-- Células dos elementos -->
+      @for (el of quimicaService.tabelaElementos(); track el.numero !== null ? el.numero : el.simbolo + el.gridRow) {
+        <div
+          class="celula-elemento {{ el.extraClass || '' }} {{ el.cssVar || '' }} {{ el.isFblock ? 'fbloco ' + el.series : '' }}"
+          [class.selecionado]="selectedElement()?.numero === el.numero && el.numero !== null"
+          [style.grid-row]="el.gridRow"
+          [style.grid-column]="el.gridCol"
+          [style.opacity]="isElementDimmed(el) ? '0.15' : '1'"
+          [style.transform]="activeFilter() === el.category ? 'scale(1.05)' : ''"
+          [style.z-index]="activeFilter() === el.category ? '2' : '1'"
+          (mouseenter)="onCellHover(el)"
+          (click)="onCellClick(el)"
+        >
+          <div class="numero">{{ el.numero }}</div>
+          <div class="simbolo">{{ el.simbolo }}</div>
+          <div class="nome">{{ el.nome }}</div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Referência de Eletronegatividade -->
+  <app-electronegativity-card></app-electronegativity-card>
+</section>

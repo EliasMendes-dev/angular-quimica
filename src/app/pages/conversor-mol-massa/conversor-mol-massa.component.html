@@ -1,0 +1,246 @@
+<!-- Seção Cabeçalho -->
+<header class="cabecalho" aria-labelledby="tituloopcao1">
+  <i class="fa-solid fa-table-cells"></i>
+  <h1>Conversor Mol<span class="cabecalho_titulo_span"> ↔ </span>Massa</h1>
+  <p class="cabecalho_descricao">
+    Converta facilmente entre quantidade de matéria (mol) e massa usando a massa molar dos compostos.
+  </p>
+</header>
+
+<section class="organizacao_primaria" data-tooltip-source="conversormolmassa">
+  <!-- Seção Conversor -->
+  <section class="card" aria-labelledby="conversorMolMassaTitulo">
+    <!-- Fórmula -->
+    <div class="conversormolmassa_form">
+      <label class="conversor_label" for="conversorFormulaInput">Fórmula da Substância</label>
+      <div
+        class="busca conversormolmassa_campo"
+        id="conversorFormulaCampo"
+        [class.busca--com-valor]="formula().length > 0"
+        [class.conversormolmassa_campo--erro]="formulaErro().length > 0"
+      >
+        <div class="campo-busca">
+          <i class="fa-solid fa-flask campo-busca_icone" aria-hidden="true"></i>
+          <input
+            #formulaInput
+            id="conversorFormulaInput"
+            class="campo-busca_input"
+            type="text"
+            inputmode="text"
+            pattern="[A-Za-z0-9()\[\]{}·]*"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Ex: H2O, CO2, Ca(OH)2"
+            aria-describedby="conversorFormulaPreview"
+            [ngModel]="formula()"
+            (ngModelChange)="onFormulaChange($event)"
+            (keydown.enter)="converter()"
+          >
+          <button
+            type="button"
+            class="campo-busca_limpar"
+            id="conversorLimparFormula"
+            aria-label="Limpar fórmula"
+            (click)="limparFormula()"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="conversormolmassa_preview" id="conversorFormulaPreview" [innerHTML]="preview()"></div>
+      @if (formulaErro()) {
+        <p class="conversormolmassa_alerta" id="conversorFormulaErro" role="alert" aria-live="polite">{{ formulaErro() }}</p>
+      }
+    </div>
+
+    <!-- Valor -->
+    <div class="conversormolmassa_form">
+      <label class="conversor_label" id="conversorValorLabel" for="conversorValorInput">{{ valorLabel() }}</label>
+      <div
+        class="busca conversormolmassa_campo"
+        id="conversorValorCampo"
+        [class.busca--com-valor]="valor().length > 0"
+        [class.conversormolmassa_campo--erro]="valorErro().length > 0"
+      >
+        <div class="campo-busca">
+          <i class="fa-solid fa-scale-balanced campo-busca_icone" aria-hidden="true"></i>
+          <input
+            #valorInput
+            id="conversorValorInput"
+            class="campo-busca_input"
+            type="text"
+            inputmode="decimal"
+            autocomplete="off"
+            spellcheck="false"
+            [placeholder]="valorPlaceholder()"
+            aria-describedby="conversorValorAjuda"
+            [ngModel]="valor()"
+            (ngModelChange)="onValorChange($event)"
+            (keydown.enter)="converter()"
+          >
+          <button
+            type="button"
+            class="campo-busca_limpar"
+            id="conversorLimparValor"
+            aria-label="Limpar valor"
+            (click)="limparValor()"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="conversormolmassa_hint" id="conversorValorAjuda">{{ valorAjuda() }}</div>
+      @if (valorErro()) {
+        <p class="conversormolmassa_alerta" id="conversorValorErro" role="alert" aria-live="polite">{{ valorErro() }}</p>
+      }
+    </div>
+
+    <!-- Seção Elementos Comuns -->
+    <div class="conversormolmassa_secao">
+      <div class="conversormolmassa_secao-header">
+        <h4>Elementos Comuns</h4>
+        <span>Toque para inserir</span>
+      </div>
+      <app-common-elements (elementoSelecionado)="inserirTexto($event)"></app-common-elements>
+    </div>
+
+    <!-- Seção Compostos Comuns -->
+    <div class="conversormolmassa_secao">
+      <div class="conversormolmassa_secao-header">
+        <h4>Compostos Comuns</h4>
+        <span>Toque para inserir</span>
+      </div>
+      <app-common-compounds (compostoSelecionado)="onCompostoSelecionado($event)"></app-common-compounds>
+    </div>
+
+    <!-- Seção Teclado Químico -->
+    <div class="conversormolmassa_secao">
+      <div class="conversormolmassa_secao-header">
+        <h4>Teclado Químico</h4>
+        <span>Parênteses, números e hidratação</span>
+      </div>
+      <app-chemical-keypad
+        (inserir)="inserirTexto($event)"
+        (apagar)="apagarUltimo()"
+        (limpar)="limparFormula()"
+      ></app-chemical-keypad>
+    </div>
+
+    <!-- Escolher Modo de Conversão -->
+    <div class="conversormolmassa_secao">
+      <div class="conversormolmassa_secao-header">
+        <h4>Modo de Conversão</h4>
+        <span>Selecione o tipo de conversão</span>
+      </div>
+      <div class="selecaoconversao" role="radiogroup" aria-label="Escolha o modo de conversão">
+        <button
+          class="modo-botao molparamassa"
+          [class.modo-ativo]="isMolParaMassa()"
+          id="molParaMassa"
+          type="button"
+          role="radio"
+          [attr.aria-checked]="isMolParaMassa()"
+          (click)="setModo(true)"
+        >
+          <p>Mol para massa</p>
+          <span>mol → g</span>
+        </button>
+        <button
+          class="alternar"
+          id="alternarConversao"
+          type="button"
+          aria-label="Alternar modo"
+          (click)="alternarModo()"
+        >
+          <i class="fa-solid fa-exchange-alt"></i>
+        </button>
+        <button
+          class="modo-botao massaparamol"
+          [class.modo-ativo]="!isMolParaMassa()"
+          id="massaParaMol"
+          type="button"
+          role="radio"
+          [attr.aria-checked]="!isMolParaMassa()"
+          (click)="setModo(false)"
+        >
+          <p>Massa para Mol</p>
+          <span>g → mol</span>
+        </button>
+      </div>
+    </div>
+
+    <button class="resultado_botao" id="convertermolmassa" type="button" (click)="converter()">
+      Converter
+    </button>
+
+    <!-- Resultados -->
+    @if (resultado()) {
+      <div class="conversormolmassa_resultado" id="conversorResultado">
+        <div class="conversormolmassa_resumo">
+          <p class="conversormolmassa_resumo-label" id="resultadoModo">
+            {{ resultado()!.isMolParaMassa ? 'Mol para massa' : 'Massa para mol' }}
+          </p>
+          <div class="conversormolmassa_resumo-formula" [innerHTML]="resultado()!.formulaHTML"></div>
+          <div class="conversormolmassa_resumo-valor">
+            {{ formatarNumero(resultado()!.saida) }} {{ resultado()!.isMolParaMassa ? 'g' : 'mol' }}
+          </div>
+          <div class="conversormolmassa_resumo-detalhe">
+            {{ formatarNumero(resultado()!.entrada) }} {{ resultado()!.isMolParaMassa ? 'mol' : 'g' }}
+            {{ resultado()!.isMolParaMassa ? '×' : '÷' }}
+            {{ formatarNumeroFix(resultado()!.massaMolar) }} g/mol
+          </div>
+        </div>
+
+        <div class="conversormolmassa_blocos">
+          <div class="conversormolmassa_bloco">
+            <span class="conversormolmassa_bloco-label">Massa molar usada</span>
+            <strong class="conversormolmassa_bloco-valor">{{ formatarNumeroFix(resultado()!.massaMolar) }} g/mol</strong>
+          </div>
+          <div class="conversormolmassa_bloco">
+            <span class="conversormolmassa_bloco-label">Relação aplicada</span>
+            <strong class="conversormolmassa_bloco-valor">
+              {{ resultado()!.isMolParaMassa ? 'massa (g) = mol × massa molar (g/mol)' : 'mol = massa (g) ÷ massa molar (g/mol)' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="conversormolmassa_passos">
+          <h4>Passo a passo</h4>
+          <div class="conversormolmassa_passos-lista">
+            @for (passo of resultado()!.passos; track $index) {
+              <div class="conversormolmassa_passo">
+                <span class="conversormolmassa_passo-num">{{ $index + 1 }}</span>
+                <p [innerHTML]="passo"></p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- Seção Informações sobre o Mol -->
+  <section class="card info-conversao" aria-label="Informações sobre Conversão de Massa e Massa Molar">
+    <section class="card_info_organizacao" aria-label="">
+      <header>
+        <h2>O que é o Mol?</h2>
+      </header>
+      <p class="card_info_escrita">
+        O <span>mol</span> é a unidade de medida do
+        <span class="tooltip-trigger" appTooltip="sistema-internacional" tooltipSource="conversormolmassa" tabindex="0">Sistema Internacional (SI)</span>
+        para quantidade de matéria. Um mol contém exatamente <span>6,022 × 10²³</span> entidades elementares (
+        <span class="tooltip-trigger" appTooltip="constante-de-avogadro" tooltipSource="conversormolmassa" tabindex="0">constante de Avogadro</span>),
+        sejam átomos, moléculas, íons ou outras partículas.
+      </p>
+      <p class="card_info_escrita">
+        A relação entre massa, mol e massa molar é fundamental na química: conhecendo dois desses valores, é
+        possível calcular o terceiro. Essa conversão é essencial para cálculos estequiométricos e preparação de
+        soluções.
+      </p>
+      <p class="card_info_escrita">
+        <span>Exemplo:</span> Para obter 36 g de água (H₂O), precisamos de 2 mol, pois a massa molar da água é
+        18 g/mol (36 ÷ 18 = 2).
+      </p>
+    </section>
+  </section>
+</section>

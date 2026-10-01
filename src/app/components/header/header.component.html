@@ -1,0 +1,43 @@
+<header>
+  <nav class="menuinicial" [class.menu-aberto]="isMenuOpen()" aria-label="Navegação principal">
+    <div class="logo">
+      @if (showBackButton()) {
+        <a routerLink="/" class="voltar" aria-label="Voltar para a página inicial">
+          <i class="fa-solid fa-arrow-left"></i>
+        </a>
+      }
+      <div class="logoescrita">
+        <div id="logo">
+          <i class="fa-solid fa-flask"></i>
+        </div>
+        <div id="escrita">
+          <p>ChemStudy</p>
+          <p id="hubdequimica">Hub de Química</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="linkeclaroescuro">
+      <div class="claroeescuro">
+        <button id="botaoTema" (click)="themeService.toggleTheme()" aria-label="Alternar modo escuro">
+          <i id="iconeTema" [class]="themeService.isDarkMode() ? 'fa-regular fa-moon' : 'fa-regular fa-sun'"></i>
+        </button>
+      </div>
+      <button
+        id="botaoMenu"
+        class="botao-menu"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-label="Abrir menu"
+      >
+        <i class="fa-solid" [class.fa-bars]="!isMenuOpen()" [class.fa-xmark]="isMenuOpen()"></i>
+      </button>
+    </div>
+
+    <div class="links">
+      <a routerLink="/" (click)="closeMenu()">Química Geral</a>
+      <a routerLink="/topicos" (click)="closeMenu()">Tópicos</a>
+      <a routerLink="/ferramentas" (click)="closeMenu()">Ferramentas</a>
+    </div>
+  </nav>
+</header>

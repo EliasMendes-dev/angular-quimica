@@ -1,0 +1,46 @@
+.massa-molar_compostos-grid {
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+}
+
+.massa-molar_composto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  padding: 0.35rem 0.45rem;
+  border: 1px solid var(--border-suave);
+  border-radius: var(--borda-raio-md);
+  background: var(--bg-suave);
+  color: var(--texto-principal);
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform var(--transicao-curta),
+    box-shadow var(--transicao-curta),
+    background var(--transicao-curta),
+    border-color var(--transicao-curta);
+}
+
+.massa-molar_composto:hover,
+.massa-molar_composto:focus-visible {
+  background: var(--bg-hover);
+  border-color: var(--border-destaque);
+  box-shadow: var(--sombra-elevada);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.massa-molar_composto-formula {
+  font-size: var(--fonte-sm);
+  font-weight: 700;
+  color: var(--texto-principal);
+}
+
+.massa-molar_composto-nome {
+  font-size: var(--fonte-2xs);
+  line-height: 1.2;
+  color: var(--texto-suave);
+}

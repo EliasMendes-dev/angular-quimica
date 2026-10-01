@@ -1,0 +1,83 @@
+<article class="card" [class.ativo]="elemento !== null" aria-live="polite">
+  <div class="nomeedescricao">
+    <div
+      class="cardnomeelemento"
+      [class.ativo]="elemento !== null"
+      [style.background]="elementoCor || 'transparent'"
+      [style.color]="elementoCor ? getTextColor(elementoCor) : 'var(--cor-secundaria)'"
+      [style.border]="elementoCor ? '10px solid ' + elementoCor : '10px solid #33333325'"
+    >
+      <div class="numeroCard">{{ elemento?.numero || '' }}</div>
+      <div class="simboloCard">{{ elemento?.simbolo || '' }}</div>
+      <div class="nomeCard">{{ elemento?.nome || 'Nome do elemento' }}</div>
+      <div class="massaCard">
+        @if (elemento?.massa_molar) {
+          {{ elemento?.massa_molar }} {{ elemento?.massa_molar_unidade || '' }}
+        }
+      </div>
+      <div class="camadasCard">{{ getCamadasFormatadas(elemento?.camadas) }}</div>
+    </div>
+    <div class="descricaodoelemento">
+      <p>{{ elemento?.descricao || '' }}</p>
+    </div>
+  </div>
+
+  <section class="maisinformacoes" [class.aberta]="isExpanded()" aria-label="Mais informações">
+    <div class="maisinformacoes-grid" id="maisinformacoes-grid" aria-live="polite">
+      <div class="info-item massaatomica">
+        <span class="info-label">Massa Molar</span>
+        <span class="info-value">{{ formatarValor(elemento?.massa_molar, elemento?.massa_molar_unidade) }}</span>
+      </div>
+      <div class="info-item bloco">
+        <span class="info-label">Bloco</span>
+        <span class="info-value">{{ formatarValor(elemento?.bloco) }}</span>
+      </div>
+      <div class="info-item configuracaoeletronica">
+        <span class="info-label">Config. Eletrônica</span>
+        <span class="info-value">{{ formatarValor(elemento?.configuracao_eletronica) }}</span>
+      </div>
+      <div class="info-item eletronegatividade">
+        <span class="info-label">Eletronegatividade</span>
+        <span class="info-value">{{ formatarValor(elemento?.eletronegatividade) }}</span>
+      </div>
+      <div class="info-item densidade">
+        <span class="info-label">Densidade</span>
+        <span class="info-value">{{ formatarValor(elemento?.densidade, elemento?.densidade_unidade) }}</span>
+      </div>
+      <div class="info-item pontodefusao">
+        <span class="info-label">Ponto de Fusão</span>
+        <span class="info-value">{{ formatarValor(elemento?.ponto_fusao, elemento?.ponto_fusao_unidade) }}</span>
+      </div>
+      <div class="info-item pontodeebulicao">
+        <span class="info-label">Ponto de Ebulição</span>
+        <span class="info-value">{{ formatarValor(elemento?.ponto_ebulicao, elemento?.ponto_ebulicao_unidade) }}</span>
+      </div>
+      <div class="info-item periodo">
+        <span class="info-label">Período</span>
+        <span class="info-value">{{ formatarValor(elemento?.periodo) }}</span>
+      </div>
+      <div class="info-item grupo">
+        <span class="info-label">Grupo</span>
+        <span class="info-value">{{ formatarValor(elemento?.grupo) }}</span>
+      </div>
+      <div class="info-item anodedescoberta">
+        <span class="info-label">Ano de Descoberta</span>
+        <span class="info-value">{{ formatarValor(elemento?.ano_descoberta) }}</span>
+      </div>
+    </div>
+    <div class="minimizaraumentar">
+      <button
+        class="icone-aumentar"
+        type="button"
+        (click)="toggleExpand()"
+        [attr.aria-expanded]="isExpanded()"
+        aria-controls="maisinformacoes-grid"
+      >
+        <span class="texto-mais">Mais informações</span>
+        <span class="texto-menos">Menos informações</span>
+        <i class="fa-solid fa-plus icon-mais"></i>
+        <i class="fa-solid fa-minus icon-menos"></i>
+      </button>
+    </div>
+  </section>
+</article>

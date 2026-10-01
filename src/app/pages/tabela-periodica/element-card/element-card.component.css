@@ -1,0 +1,184 @@
+.nomeedescricao {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 150px;
+  width: 100%;
+  color: var(--texto-principal);
+  gap: 1rem;
+}
+
+.minimizaraumentar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icone-aumentar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid var(--border-suave);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--texto-suave);
+  cursor: pointer;
+  font-size: var(--fonte-xs);
+  transition:
+    color var(--transicao-curta),
+    border-color var(--transicao-curta),
+    transform var(--transicao-curta),
+    background var(--transicao-curta);
+}
+
+.icone-aumentar:hover,
+.icone-aumentar:focus-visible {
+  border-color: var(--border-destaque);
+  color: var(--texto-destaque);
+  background: var(--bg-destaque-suave);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.icone-aumentar .texto-menos,
+.icone-aumentar .icon-menos {
+  display: none;
+}
+
+.maisinformacoes.aberta .icone-aumentar .texto-mais,
+.maisinformacoes.aberta .icone-aumentar .icon-mais {
+  display: none;
+}
+
+.maisinformacoes.aberta .icone-aumentar .texto-menos,
+.maisinformacoes.aberta .icone-aumentar .icon-menos {
+  display: inline-flex;
+}
+
+.maisinformacoes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.maisinformacoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 0.75rem;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition:
+    max-height var(--transicao-media),
+    opacity var(--transicao-media),
+    transform var(--transicao-media);
+}
+
+.maisinformacoes.aberta .maisinformacoes-grid {
+  max-height: 600px;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.maisinformacoes-grid .info-item {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border-suave);
+  border-radius: var(--borda-raio-md);
+  background: var(--bg-base);
+}
+
+.maisinformacoes-grid .info-label {
+  color: var(--texto-suave);
+  font-size: var(--fonte-xs);
+}
+
+.maisinformacoes-grid .info-value {
+  color: var(--texto-principal);
+  font-size: var(--fonte-xs);
+}
+
+.cardnomeelemento {
+  position: relative;
+  display: flex;
+  flex: 0 0 130px;
+  flex-direction: column;
+  width: 130px;
+  height: 130px;
+  box-sizing: border-box;
+  border: 10px solid var(--texto-destaque);
+  color: var(--texto-destaque);
+  border-radius: var(--borda-raio-md);
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.cardnomeelemento.ativo {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.numeroCard {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  font-size: var(--fonte-2xs);
+  font-weight: 700;
+}
+
+.simboloCard {
+  font-size: var(--fonte-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.nomeCard {
+  font-size: var(--fonte-2xs);
+  font-weight: 600;
+  margin-top: 2px;
+  text-align: center;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.massaCard {
+  font-size: var(--fonte-3xs);
+  margin-top: 1px;
+}
+
+.camadasCard {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: var(--fonte-3xs);
+  line-height: 1.1;
+  text-align: right;
+  white-space: pre-line;
+}
+
+.descricaodoelemento {
+  flex: 1;
+  font-size: var(--fonte-sm);
+  line-height: 1.6;
+  color: var(--texto-suave);
+  padding: 0 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .nomeedescricao {
+    flex-direction: column;
+    text-align: center;
+  }
+}

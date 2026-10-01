@@ -1,0 +1,44 @@
+.massa-molar_teclado {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  justify-items: stretch;
+}
+
+.massa-molar_tecla {
+  min-height: 36px;
+  padding: 0.35rem 0.25rem;
+  border: 1px solid var(--border-suave);
+  border-radius: var(--borda-raio-md);
+  background: var(--bg-suave);
+  color: var(--texto-principal);
+  font-family: inherit;
+  font-size: var(--fonte-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform var(--transicao-curta),
+    box-shadow var(--transicao-curta),
+    background var(--transicao-curta),
+    border-color var(--transicao-curta);
+}
+
+.massa-molar_tecla:hover,
+.massa-molar_tecla:focus-visible {
+  background: var(--bg-hover);
+  border-color: var(--border-destaque);
+  box-shadow: var(--sombra-elevada);
+  outline: none;
+  transform: translateY(-1px);
+}
+
+.massa-molar_tecla--acao {
+  background: var(--bg-destaque-suave);
+  color: var(--texto-destaque);
+  border-color: var(--border-destaque-suave);
+}
+
+.massa-molar_tecla--limpar {
+  color: var(--error);
+  border-color: color-mix(in srgb, var(--error) 40%, transparent);
+}

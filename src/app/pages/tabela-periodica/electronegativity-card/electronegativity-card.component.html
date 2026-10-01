@@ -1,0 +1,35 @@
+<section class="card info-tabela-periodica" aria-label="Tabela de propriedades">
+  <section class="card_info_organizacao" aria-label="Tabela de eletronegatividade">
+    <header>
+      <h2>Eletronegatividade</h2>
+    </header>
+    <p class="card_info_escrita">
+      A eletronegatividade é a capacidade que um átomo possui de atrair elétrons
+      em uma ligação química. Os valores mais utilizados são os da
+      <span class="tooltip-trigger" appTooltip="escala-de-pauling" tooltipSource="tabela" tabindex="0">Escala de Pauling</span>, proposta pelo químico
+      <span class="tooltip-trigger" appTooltip="linus-pauling" tooltipSource="tabela" tabindex="0">Linus Pauling</span>.
+    </p>
+    <figure class="tabela-pauling">
+      <figcaption>
+        Elementos mais eletronegativos da tabela periódica (Escala de Pauling)
+      </figcaption>
+      <ol class="lista-pauling">
+        @for (el of topPauling; track el.simbolo) {
+          <li class="elemento {{ el.classe }}">
+            <span class="simbolo">{{ el.simbolo }}</span>
+            <span class="nome">{{ el.nome }}</span>
+            <span class="valor">{{ el.valor }}</span>
+          </li>
+        }
+      </ol>
+    </figure>
+    <section class="tendencia">
+      <h5>Tendência na Tabela Periódica</h5>
+      <p>
+        A eletronegatividade aumenta da esquerda para a direita ao longo de um período e
+        diminui de cima para baixo em um grupo. O Flúor (F) é o elemento mais eletronegativo,
+        enquanto o Frâncio (Fr) é o menos eletronegativo.
+      </p>
+    </section>
+  </section>
+</section>

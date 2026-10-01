@@ -1,0 +1,14 @@
+footer {
+  color: var(--texto-principal);
+  text-align: center;
+  padding: var(--espaco-md);
+  margin-top: 1.875rem;
+  background: var(--footer-fundo);
+  pointer-events: none;
+  transition: background var(--transicao-media), color var(--transicao-media);
+}
+
+p {
+  font-size: var(--fonte-sm);
+  color: var(--texto-suave);
+}

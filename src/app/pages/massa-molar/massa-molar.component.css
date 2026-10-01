@@ -1,0 +1,197 @@
+.massa-molar_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.massa-molar_label {
+  font-size: var(--fonte-sm);
+  font-weight: 600;
+  color: var(--texto-principal);
+}
+
+.massa-molar_campo--erro .campo-busca {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--error) 20%, transparent);
+}
+
+.massa-molar_preview {
+  min-height: 1.3rem;
+  font-size: var(--fonte-sm);
+  font-weight: 600;
+  color: var(--texto-destaque);
+}
+
+.massa-molar_alerta {
+  min-height: 1.1rem;
+  font-size: var(--fonte-xs);
+  color: var(--error);
+}
+
+.massa-molar_secao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.massa-molar_secao-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.massa-molar_secao-header h4 {
+  font-size: var(--fonte-md);
+  color: var(--texto-principal);
+}
+
+.massa-molar_secao-header span {
+  font-size: var(--fonte-2xs);
+  color: var(--texto-suave);
+}
+
+.massa-molar_resultado {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-suave);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.massa-molar_resumo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 1rem;
+  background: var(--bg-suave);
+  border-radius: var(--borda-raio-md);
+  border: 1px solid var(--border-suave);
+}
+
+.massa-molar_resumo-label {
+  font-size: var(--fonte-xs);
+  color: var(--texto-suave);
+}
+
+.massa-molar_resumo-formula {
+  font-size: var(--fonte-xl);
+  font-weight: 700;
+  color: var(--texto-principal);
+}
+
+.massa-molar_resumo-valor {
+  font-size: var(--fonte-2xl);
+  font-weight: 700;
+  color: var(--texto-destaque);
+}
+
+.massa-molar_tabela {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-x: auto;
+}
+
+.massa-molar_linha {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--bg-base);
+  border: 1px solid var(--border-suave);
+  border-radius: var(--borda-raio-sm);
+  font-size: var(--fonte-xs);
+}
+
+.massa-molar_linha--cab {
+  font-weight: 700;
+  color: var(--texto-suave);
+  background: transparent;
+  border: none;
+}
+
+.massa-molar_elemento-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.massa-molar_tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 0.3rem;
+  border-radius: 6px;
+  background: var(--bg-destaque-suave);
+  color: var(--texto-destaque);
+  font-weight: 700;
+  font-size: var(--fonte-xs);
+}
+
+.massa-molar_elemento-nome {
+  font-weight: 600;
+  color: var(--texto-principal);
+}
+
+.massa-molar_rodape {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0.8rem;
+  font-weight: 700;
+  font-size: var(--fonte-sm);
+  color: var(--texto-destaque);
+  background: var(--bg-destaque-suave);
+  border-radius: var(--borda-raio-sm);
+}
+
+.massa-molar_percentual {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.massa-molar_percentual h4 {
+  font-size: var(--fonte-sm);
+  color: var(--texto-principal);
+}
+
+.massa-molar_percentual-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.massa-molar_percentual-item {
+  display: grid;
+  grid-template-columns: 140px 1fr 60px;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: var(--fonte-xs);
+}
+
+.massa-molar_barra {
+  height: 8px;
+  background: var(--bg-suave);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.massa-molar_barra span {
+  display: block;
+  height: 100%;
+  background: var(--texto-destaque);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}

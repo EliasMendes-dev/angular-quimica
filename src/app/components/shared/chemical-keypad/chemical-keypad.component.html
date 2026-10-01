@@ -1,0 +1,28 @@
+<div class="massa-molar_teclado">
+  @for (tecla of teclas; track tecla) {
+    <button
+      type="button"
+      class="massa-molar_tecla"
+      [attr.data-quimica-tecla]="tecla"
+      (click)="onTeclaClick(tecla)"
+    >
+      {{ tecla }}
+    </button>
+  }
+  <button
+    type="button"
+    class="massa-molar_tecla massa-molar_tecla--acao"
+    aria-label="Apagar último caractere"
+    (click)="onApagarClick()"
+  >
+    ⌫
+  </button>
+  <button
+    type="button"
+    class="massa-molar_tecla massa-molar_tecla--limpar"
+    aria-label="Limpar fórmula"
+    (click)="onLimparClick()"
+  >
+    C
+  </button>
+</div>

@@ -1,0 +1,189 @@
+.menuinicial {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-md);
+  padding: var(--espaco-md);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transform: translateY(0);
+  background: var(--bg-container);
+  box-shadow: var(--sombra-menu);
+  transition:
+    transform var(--transicao-media),
+    background-color var(--transicao-media),
+    box-shadow var(--transicao-media);
+}
+
+.logo {
+  display: flex;
+  order: 1;
+}
+
+.logoescrita {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  font-size: var(--fonte-2xl);
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--texto-principal);
+  transition: color var(--transicao-curta);
+}
+
+.voltar:hover {
+  color: var(--texto-hover);
+}
+
+#logo {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  background: var(--texto-destaque);
+  color: #ffffff;
+  font-size: var(--fonte-2xl);
+  font-weight: 700;
+}
+
+#escrita {
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  cursor: default;
+}
+
+#hubdequimica {
+  font-size: var(--fonte-sm);
+  font-weight: 400;
+}
+
+.linkeclaroescuro {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  order: 3;
+}
+
+.claroeescuro {
+  display: flex;
+}
+
+#botaoTema {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+#iconeTema {
+  color: var(--texto-destaque);
+  font-size: var(--fonte-xl);
+  transition: transform 0.4s, color var(--transicao-media);
+}
+
+:host-context(body.escuro) #iconeTema {
+  transform: rotate(360deg);
+}
+
+.botao-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--texto-destaque);
+  border-radius: var(--borda-raio-sm);
+  background: none;
+  color: var(--texto-destaque);
+  cursor: pointer;
+  transition:
+    background var(--transicao-curta),
+    color var(--transicao-curta),
+    border-color var(--transicao-curta),
+    transform var(--transicao-curta);
+}
+
+.botao-menu:hover,
+.botao-menu:focus-visible {
+  background: var(--bg-destaque-suave);
+  border-color: var(--texto-destaque);
+  outline: none;
+}
+
+.links {
+  display: flex;
+  gap: var(--espaco-md);
+  order: 2;
+}
+
+.links a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--texto-principal);
+  font-weight: 600;
+  transition: color var(--transicao-curta);
+}
+
+.links a:hover {
+  color: var(--texto-hover);
+}
+
+@media (max-width: 600px) {
+  .menuinicial {
+    flex-wrap: nowrap;
+  }
+
+  .links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 65vw;
+    max-width: 320px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-md);
+    padding: 5rem 1.25rem 1.25rem;
+    background: var(--bg-container);
+    backdrop-filter: blur(12px);
+    box-shadow: -20px 0 40px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition:
+      transform var(--transicao-media),
+      opacity var(--transicao-media);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1100;
+  }
+
+  .menuinicial.menu-aberto .links {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .linkeclaroescuro {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .botao-menu {
+    display: flex;
+    z-index: 1200;
+  }
+}
