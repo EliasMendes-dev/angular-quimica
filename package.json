@@ -34,6 +34,10 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "^5.7.0",
-    "source-map": "^0.7.4"
+    "source-map": "^0.8.0",
+    "rimraf": "^6.0.0",
+    "tar": "^8.0.0",
+    "uuid": "^11.0.0",
+    "glob": "^11.0.0"
   }
 }
