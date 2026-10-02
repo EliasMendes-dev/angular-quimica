@@ -1,6 +1,11 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/chemstudy-app",
-  "framework": "angular"
+  "outputDirectory": "dist/chemstudy-app/browser",
+  "framework": "angular",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
-
