@@ -1,3 +1,15 @@
+.info-conversao .card_info_organizacao {
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.info-conversao .card_info_organizacao header,
+.info-conversao .card_info_escrita {
+  width: 100%;
+  text-align: center;
+}
+
 .conversormolmassa_form {
   display: flex;
   flex-direction: column;

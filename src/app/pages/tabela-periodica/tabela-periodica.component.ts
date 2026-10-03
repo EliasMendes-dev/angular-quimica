@@ -31,8 +31,10 @@ export class TabelaPeriodicaComponent {
 
   currentCor = computed(() => {
     const el = this.currentElement();
-    if (!el || !el.category) return '';
-    return this.getCategoriaCor(el.category);
+    if (!el) return '';
+    const category = el.category
+      || (el.numero !== null ? this.quimicaService.classifyElement(Number(el.numero)) : '');
+    return this.getCategoriaCor(category);
   });
 
   searchResults = computed(() => {
