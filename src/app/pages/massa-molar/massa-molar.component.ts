@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormulaQuimicaService } from '../../services/formula-quimica.service';
 import { QuimicaService } from '../../services/quimica.service';
 import { Composto, ResultadoMassaMolar } from '../../models/quimica.models';
 import { CommonElementsComponent } from '../../components/shared/common-elements/common-elements.component';
@@ -24,6 +25,7 @@ import { TooltipDirective } from '../../directives/tooltip.directive';
 })
 export class MassaMolarComponent {
   quimicaService = inject(QuimicaService);
+  formulaService = inject(FormulaQuimicaService);
 
   @ViewChild('formulaInput') formulaInputRef!: ElementRef<HTMLInputElement>;
 
@@ -40,11 +42,11 @@ export class MassaMolarComponent {
   }
 
   atualizarPreview(): void {
-    const norm = this.quimicaService.normalizarFormula(this.formula());
+    const norm = this.formulaService.normalizarFormula(this.formula());
     if (!norm) {
       this.preview.set('Digite uma fórmula');
     } else {
-      this.preview.set(this.quimicaService.formatarFormulaHTML(norm));
+      this.preview.set(this.formulaService.formatarFormulaHTML(norm));
     }
   }
 
@@ -128,7 +130,7 @@ export class MassaMolarComponent {
       return;
     }
 
-    const err = this.quimicaService.validarFormula(this.formula());
+    const err = this.formulaService.validarFormula(this.formula());
     if (err) {
       this.erro.set(err);
       this.resultado.set(null);
@@ -136,8 +138,8 @@ export class MassaMolarComponent {
     }
 
     try {
-      const formulaNorm = this.quimicaService.normalizarFormula(this.formula());
-      const res = this.quimicaService.calcularMassaMolar(formulaNorm);
+      const formulaNorm = this.formulaService.normalizarFormula(this.formula());
+      const res = this.formulaService.calcularMassaMolar(formulaNorm);
 
       // Verificar elementos desconhecidos
       const desconhecidos = res.linhas.filter(l => l.massaAtomica === 0);
@@ -155,6 +157,6 @@ export class MassaMolarComponent {
   }
 
   formatarMassa(val: number): string {
-    return this.quimicaService.formatarMassa(val);
+    return this.formulaService.formatarMassa(val);
   }
 }

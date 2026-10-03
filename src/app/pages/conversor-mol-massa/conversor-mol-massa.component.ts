@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormulaQuimicaService } from '../../services/formula-quimica.service';
 import { QuimicaService } from '../../services/quimica.service';
 import { Composto, ResultadoConversao } from '../../models/quimica.models';
 import { CommonElementsComponent } from '../../components/shared/common-elements/common-elements.component';
@@ -24,6 +25,7 @@ import { TooltipDirective } from '../../directives/tooltip.directive';
 })
 export class ConversorMolMassaComponent {
   quimicaService = inject(QuimicaService);
+  formulaService = inject(FormulaQuimicaService);
 
   @ViewChild('formulaInput') formulaInputRef!: ElementRef<HTMLInputElement>;
   @ViewChild('valorInput') valorInputRef!: ElementRef<HTMLInputElement>;
@@ -37,9 +39,9 @@ export class ConversorMolMassaComponent {
   resultado = signal<ResultadoConversao | null>(null);
 
   preview = computed(() => {
-    const f = this.quimicaService.normalizarFormula(this.formula());
+    const f = this.formulaService.normalizarFormula(this.formula());
     if (!f) return 'Digite uma fórmula';
-    return this.quimicaService.formatarFormulaHTML(f);
+    return this.formulaService.formatarFormulaHTML(f);
   });
 
   valorLabel = computed(() => {
@@ -183,7 +185,7 @@ export class ConversorMolMassaComponent {
       return;
     }
 
-    const errFormula = this.quimicaService.validarFormula(this.formula());
+    const errFormula = this.formulaService.validarFormula(this.formula());
     if (errFormula) {
       this.formulaErro.set(errFormula);
       this.resultado.set(null);
@@ -210,8 +212,8 @@ export class ConversorMolMassaComponent {
     }
 
     try {
-      const formulaNorm = this.quimicaService.normalizarFormula(this.formula());
-      const res = this.quimicaService.converterMolMassa(formulaNorm, num, this.isMolParaMassa());
+      const formulaNorm = this.formulaService.normalizarFormula(this.formula());
+      const res = this.formulaService.converterMolMassa(formulaNorm, num, this.isMolParaMassa());
 
       if (res.massaMolar === 0) {
         this.formulaErro.set('Elementos desconhecidos na fórmula.');

@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ConfiguracaoEletronicaService } from '../../services/configuracao-eletronica.service';
 import { QuimicaService } from '../../services/quimica.service';
 import { Elemento } from '../../models/quimica.models';
 import { CommonElementsComponent } from '../../components/shared/common-elements/common-elements.component';
@@ -26,6 +27,7 @@ interface PaulingLinha {
 })
 export class EstruturaAtomicaComponent {
   quimicaService = inject(QuimicaService);
+  configuracaoEletronicaService = inject(ConfiguracaoEletronicaService);
 
   elementoSelecionado = signal<Elemento | null>(null);
   searchTerm = signal<string>('');
@@ -64,14 +66,14 @@ export class EstruturaAtomicaComponent {
   configAbreviadaHTML = computed(() => {
     const el = this.elementoSelecionado();
     if (!el || !el.configuracao_eletronica) return '--';
-    return this.quimicaService.formatarConfiguracaoHTML(el.configuracao_eletronica);
+    return this.configuracaoEletronicaService.formatarConfiguracaoHTML(el.configuracao_eletronica);
   });
 
   configExpandidaHTML = computed(() => {
     const el = this.elementoSelecionado();
     if (!el || !el.configuracao_eletronica) return '--';
-    const exp = this.quimicaService.expandirConfiguracao(el.configuracao_eletronica);
-    return this.quimicaService.formatarConfiguracaoHTML(exp);
+    const exp = this.configuracaoEletronicaService.expandirConfiguracao(el.configuracao_eletronica);
+    return this.configuracaoEletronicaService.formatarConfiguracaoHTML(exp);
   });
 
   camadasArray = computed<number[]>(() => {
@@ -89,7 +91,7 @@ export class EstruturaAtomicaComponent {
     const tamanhoMin = 90;
     const tamanhoMax = 220;
     const passo = total > 1 ? (tamanhoMax - tamanhoMin) / (total - 1) : 0;
-    const cores = this.quimicaService.coresEletrons;
+    const cores = this.configuracaoEletronicaService.coresEletrons;
 
     return camadas.map((quantidade, index) => {
       const tamanho = Math.round(tamanhoMin + index * passo);
@@ -115,18 +117,18 @@ export class EstruturaAtomicaComponent {
     const el = this.elementoSelecionado();
     if (!el || !el.configuracao_eletronica) return [];
 
-    const configExp = this.quimicaService.expandirConfiguracao(el.configuracao_eletronica);
-    const contagens = this.quimicaService.parseConfiguracao(configExp || el.configuracao_eletronica);
-    const ordem = this.quimicaService.ordemPauling.filter(chave => (contagens[chave] || 0) > 0);
+    const configExp = this.configuracaoEletronicaService.expandirConfiguracao(el.configuracao_eletronica);
+    const contagens = this.configuracaoEletronicaService.parseConfiguracao(configExp || el.configuracao_eletronica);
+    const ordem = this.configuracaoEletronicaService.ordemPauling.filter(chave => (contagens[chave] || 0) > 0);
     const extras = Object.keys(contagens).filter(
-      chave => (contagens[chave] || 0) > 0 && !this.quimicaService.ordemPauling.includes(chave)
+      chave => (contagens[chave] || 0) > 0 && !this.configuracaoEletronicaService.ordemPauling.includes(chave)
     );
     const lista = ordem.concat(extras);
 
     return lista.map(chave => {
       const match = chave.match(/(\d+)([spdf])/i);
       const subnivel = match ? match[2].toLowerCase() : 's';
-      const totalOrbitais = this.quimicaService.orbitaisPorSubnivel[subnivel] || 1;
+      const totalOrbitais = this.configuracaoEletronicaService.orbitaisPorSubnivel[subnivel] || 1;
       const eletronsNumero = contagens[chave] || 0;
 
       const ocupacao = Array.from({ length: totalOrbitais }, () => 0);
@@ -164,7 +166,7 @@ export class EstruturaAtomicaComponent {
   letraValencia = computed(() => {
     const camadas = this.camadasArray();
     if (!camadas.length) return '';
-    return this.quimicaService.letrasCamadas[camadas.length - 1] || '';
+    return this.configuracaoEletronicaService.letrasCamadas[camadas.length - 1] || '';
   });
 
   valenciaDots = computed(() => {

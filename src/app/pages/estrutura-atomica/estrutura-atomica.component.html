@@ -141,7 +141,7 @@
         } @else {
           @for (camada of camadasArray(); track $index) {
             <span class="estruturaatomica_camada-tag">
-              Camada {{ quimicaService.letrasCamadas[$index] || 'N' + ($index + 1) }}: <strong>{{ camada }}e-</strong>
+              Camada {{ configuracaoEletronicaService.letrasCamadas[$index] || 'N' + ($index + 1) }}: <strong>{{ camada }}e-</strong>
             </span>
           }
         }
