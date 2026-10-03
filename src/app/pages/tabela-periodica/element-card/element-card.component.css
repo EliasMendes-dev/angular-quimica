@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 .nomeedescricao {
   align-items: center;
   box-sizing: border-box;

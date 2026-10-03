@@ -1,3 +1,18 @@
+.info-massa-molar .card_info_organizacao,
+.info-equilibrio-quimico .card_info_organizacao {
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.info-massa-molar .card_info_organizacao header,
+.info-equilibrio-quimico .card_info_organizacao header,
+.info-massa-molar .card_info_escrita,
+.info-equilibrio-quimico .card_info_escrita {
+  width: 100%;
+  text-align: center;
+}
+
 .massa-molar_form {
   display: flex;
   flex-direction: column;

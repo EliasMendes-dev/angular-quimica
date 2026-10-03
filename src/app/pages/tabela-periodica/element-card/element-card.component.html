@@ -12,7 +12,7 @@
       <div class="nomeCard">{{ elemento?.nome || 'Nome do elemento' }}</div>
       <div class="massaCard">
         @if (elemento?.massa_molar) {
-          {{ elemento?.massa_molar }} {{ elemento?.massa_molar_unidade || '' }}
+          {{ elemento.massa_molar }} {{ elemento.massa_molar_unidade || '' }}
         }
       </div>
       <div class="camadasCard">{{ getCamadasFormatadas(elemento?.camadas) }}</div>
